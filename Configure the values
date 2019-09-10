@@ -1,0 +1,29 @@
+//Calling method
+Pages.EnvironmentSelector.EnvClick(1, productName);
+
+//Method called
+public EnvironmentSelector EnvClick(int env, string product)
+        {
+            try
+            {
+
+                IWebElement projectName = Browser.webDriver.FindElement(By.XPath("//h1[contains(text(), '"+ product +"' )]"));
+                if (!product.Contains(projectName.Text))
+                {
+                    throw new Exception("Unable to find the projectName on the environmen selector page");
+                }
+            
+                IWebElement environment = Browser.webDriver.FindElement(By.XPath("//div[@class='env-option'][" + env + "]//div"));
+                    environment.Click();
+                
+                
+                PageBase.WriteLog(UI.Logger.LogLevel.Success, "Successfully clicked on one of the Environment to launch Acquire");
+            }
+            catch
+            {
+                PageBase.WriteLog(UI.Logger.LogLevel.Error, "Not able to click on Acquire environment name");
+                PageBase.WriteLog(UI.Logger.LogLevel.Error, "", new Exception("Failed to see the Acquire environment"));
+            }
+
+            return this;
+        }
